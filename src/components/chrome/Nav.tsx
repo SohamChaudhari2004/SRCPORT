@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, FileText, Menu, Moon, Sun, X } from "lucide-react";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -23,6 +24,14 @@ const navIndexFor = (active: number) => {
 };
 
 const spring = { type: "spring" as const, bounce: 0, duration: 0.45 };
+
+/** Pulsing dot that marks the Playground link as live. */
+const LiveDot = () => (
+  <span aria-hidden className="relative flex size-1.5">
+    <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent-2 opacity-70" />
+    <span className="relative inline-flex size-1.5 rounded-full bg-accent-2" />
+  </span>
+);
 
 function ScrambleLink({ label, onClick, active }: { label: string; onClick: () => void; active: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -168,6 +177,14 @@ export default function Nav() {
                 <ScrambleLink label={item.nav!} active={activeNav === idx} onClick={() => go(item.id)} />
               </div>
             ))}
+            <span aria-hidden className="mx-1 h-5 w-px bg-line" />
+            <Link
+              href="/playground"
+              data-cursor="Try"
+              className="label relative z-10 inline-flex items-center gap-2 rounded-full px-3 py-2 text-ink transition-colors duration-200 hover:bg-ink hover:text-bg"
+            >
+              <LiveDot /> Playground
+            </Link>
           </nav>
 
           <div data-nav-item className="pointer-events-auto flex items-center gap-2">
@@ -249,6 +266,23 @@ export default function Nav() {
                   </button>
                 </motion.li>
               ))}
+              <motion.li
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ ...spring, delay: 0.05 + NAV.length * 0.05 }}
+                className="border-b border-line"
+              >
+                <Link
+                  href="/playground"
+                  onClick={() => setOpen(false)}
+                  className="flex w-full items-baseline justify-between py-4 text-left"
+                >
+                  <span className="inline-flex items-center gap-3 text-4xl font-bold tracking-[-0.04em]">
+                    Playground <LiveDot />
+                  </span>
+                  <ArrowUpRight size={20} className="text-muted" />
+                </Link>
+              </motion.li>
             </ul>
             <div className="shell flex flex-col gap-4 pb-8">
               <button

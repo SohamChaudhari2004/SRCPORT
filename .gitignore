@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# onnx runtime wasm, copied from node_modules by scripts/copy-ort.mjs
+/public/ort/
+
 # vercel
 .vercel
 

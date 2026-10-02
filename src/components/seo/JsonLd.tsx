@@ -46,6 +46,12 @@ export default function JsonLd() {
         jobTitle: site.role,
         description: seo.ogDescription,
         email: `mailto:${site.email}`,
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "professional inquiries",
+          email: site.email,
+          url: `${seo.url}/contact`,
+        },
         address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressRegion: "Maharashtra", addressCountry: "IN" },
         ...(current && {
           worksFor: {
@@ -63,8 +69,9 @@ export default function JsonLd() {
         "@type": "SoftwareSourceCode",
         name: p.title,
         description: p.description,
-        codeRepository: p.githubLink,
-        ...(p.liveLink && { url: p.liveLink }),
+        url: `${seo.url}/projects/${p.slug}`,
+        ...(p.githubLink && { codeRepository: p.githubLink }),
+        ...(p.liveLink && { sameAs: new URL(p.liveLink, seo.url).href }),
         author: { "@id": personId },
       })),
     ],

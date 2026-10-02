@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { gsap, SplitText, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { resumeUrl } from "@/lib/derive";
@@ -92,8 +93,14 @@ export default function Footer() {
       </div>
 
       <div className="shell label flex flex-wrap justify-between gap-2 border-t border-line py-4 text-muted">
-        <span>
-          © {new Date().getFullYear()} {site.name}
+        <span className="flex flex-wrap gap-x-4 gap-y-1">
+          <span>
+            © {new Date().getFullYear()} {site.name}
+          </span>
+          <Link href="/about" className="hover:text-accent">About</Link>
+          <Link href="/contact" className="hover:text-accent">Contact</Link>
+          <Link href="/privacy" className="hover:text-accent">Privacy</Link>
+          <Link href="/playground" className="hover:text-accent">Playground</Link>
         </span>
         <span>
           {site.role} · {copy.signoff}

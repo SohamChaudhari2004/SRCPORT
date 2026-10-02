@@ -9,11 +9,14 @@ import { seo } from "@/data/seo";
 import { site } from "@/data/profile";
 import ProjectCover from "@/components/ui/ProjectCover";
 import GithubIcon from "@/components/ui/GithubIcon";
+import { demoFor } from "@/components/playground/demos";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return featuredProjects.filter((p) => caseStudies[p.slug]).map((p) => ({ slug: p.slug }));
+  return featuredProjects
+    .filter((p) => caseStudies[p.slug])
+    .map((p) => ({ slug: p.slug }));
 }
 
 function load(slug: string) {
@@ -22,7 +25,9 @@ function load(slug: string) {
   return project && study ? { project, study } : null;
 }
 
-export async function generateMetadata({ params }: PageProps<"/projects/[slug]">): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps<"/projects/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const data = load(slug);
   if (!data) return {};
@@ -34,19 +39,34 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
     description,
     keywords: [...study.keywords, project.title, site.name],
     alternates: { canonical: path },
-    openGraph: { type: "article", url: path, title: `${study.seoTitle} | ${site.name}`, description },
-    twitter: { card: "summary_large_image", title: study.seoTitle, description },
+    openGraph: {
+      type: "article",
+      url: path,
+      title: `${study.seoTitle} | ${site.name}`,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: study.seoTitle,
+      description,
+    },
   };
 }
 
-export default async function ProjectPage({ params }: PageProps<"/projects/[slug]">) {
+export default async function ProjectPage({
+  params,
+}: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
   const data = load(slug);
   if (!data) notFound();
   const { project, study } = data;
   const i = featuredProjects.indexOf(project);
-  const others = featuredProjects.filter((p) => p !== project && caseStudies[p.slug]);
+  const others = featuredProjects.filter(
+    (p) => p !== project && caseStudies[p.slug],
+  );
   const url = `${seo.url}/projects/${slug}`;
+  const demo = demoFor(slug);
+  const videos = study.media?.videos;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -58,10 +78,12 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         headline: study.seoTitle,
         description: `${study.tagline} ${project.description}`,
         url,
-        codeRepository: project.githubLink,
+        ...(project.githubLink && { codeRepository: project.githubLink }),
         programmingLanguage: "Python",
         keywords: study.keywords.join(", "),
-        ...(project.liveLink && { sameAs: project.liveLink }),
+        ...(project.liveLink && {
+          sameAs: new URL(project.liveLink, seo.url).href,
+        }),
         ...(project.image && { image: `${seo.url}${project.image}` }),
         author: { "@id": `${seo.url}/#person` },
       },
@@ -69,7 +91,12 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: seo.url },
-          { "@type": "ListItem", position: 2, name: "Projects", item: `${seo.url}/#work` },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Projects",
+            item: `${seo.url}/#work`,
+          },
           { "@type": "ListItem", position: 3, name: project.title, item: url },
         ],
       },
@@ -80,11 +107,19 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
     <main className="shell pb-24 pt-8 md:pt-10">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
       />
 
-      <nav aria-label="Breadcrumb" className="label flex items-center justify-between border-b border-line pb-3">
-        <Link href="/#work" className="inline-flex items-center gap-2 hover:text-accent">
+      <nav
+        aria-label="Breadcrumb"
+        className="label flex items-center justify-between border-b border-line pb-3"
+      >
+        <Link
+          href="/#work"
+          className="inline-flex items-center gap-2 hover:text-accent"
+        >
           <ArrowLeft size={14} /> {site.name}
         </Link>
         <span className="text-muted">
@@ -101,33 +136,102 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           {study.tagline}
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href={project.githubLink} target="_blank" rel="noreferrer" className="btn-brutal">
-            <GithubIcon size={15} /> Source
-          </a>
-          {project.liveLink && (
-            <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn-line">
+          {project.githubLink && (
+            <a
+              href={project.githubLink}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-brutal"
+            >
+              <GithubIcon size={15} /> Source
+            </a>
+          )}
+          {demo && (
+            <a href="#demo" className="btn-brutal">
+              Try it live <ArrowUpRight size={14} />
+            </a>
+          )}
+          {demo && (
+            <Link href={`/${demo.slug}`} className="btn-line">
+              Open full page <ArrowUpRight size={14} />
+            </Link>
+          )}
+          {project.liveLink && !demo && (
+            <a
+              href={project.liveLink}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-line"
+            >
               Live demo <ArrowUpRight size={14} />
             </a>
           )}
         </div>
       </header>
 
-      <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-[28px] border border-line bg-paper/60">
-        {project.image ? (
-          <Image
-            src={project.image}
-            alt={`${project.title} screenshot`}
-            fill
-            priority
-            sizes="(min-width: 1280px) 1200px, 92vw"
-            className="object-cover object-top"
-          />
-        ) : (
-          <ProjectCover project={project} />
-        )}
-      </div>
+      {!demo && !videos?.length && (
+        <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-[28px] border border-line bg-paper/60">
+          {project.image ? (
+            <Image
+              src={project.image}
+              alt={`${project.title} screenshot`}
+              fill
+              priority
+              sizes="(min-width: 1280px) 1200px, 92vw"
+              className="object-cover object-top"
+            />
+          ) : (
+            <ProjectCover project={project} />
+          )}
+        </div>
+      )}
 
-      <section className="mt-16 grid gap-10 md:grid-cols-12" aria-labelledby="overview">
+      {demo && (
+        <section
+          id="demo"
+          className="mt-12 scroll-mt-8"
+          aria-label={`${project.title} live demo`}
+        >
+          <div className="glass rounded-[28px] p-3 md:p-4">
+            <demo.Demo />
+          </div>
+        </section>
+      )}
+
+      {videos?.length ? (
+        <section id="demo" className="mt-12 scroll-mt-8" aria-label={`${project.title} in action`}>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {videos.map((v, n) => (
+              <figure key={v.src}>
+                <div className="overflow-hidden rounded-2xl border border-line bg-black">
+                  <video
+                    src={v.src}
+                    poster={v.poster}
+                    controls
+                    playsInline
+                    preload="none"
+                    className="block aspect-[1280/648] w-full"
+                  >
+                    <track kind="captions" />
+                  </video>
+                </div>
+                <figcaption className="mt-3 flex gap-4">
+                  <span className="label pt-0.5 tabular-nums text-accent">{pad(n + 1)}</span>
+                  <span>
+                    <span className="block font-semibold tracking-[-0.01em]">{v.title}</span>
+                    <span className="mt-1 block text-[14px] leading-relaxed text-ink-2">{v.caption}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <section
+        className="mt-16 grid gap-10 md:grid-cols-12"
+        aria-labelledby="overview"
+      >
         <h2 id="overview" className="label md:col-span-3">
           Overview
         </h2>
@@ -138,35 +242,53 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         </div>
       </section>
 
-      <section className="mt-16 grid gap-10 md:grid-cols-12" aria-labelledby="features">
+      <section
+        className="mt-16 grid gap-10 md:grid-cols-12"
+        aria-labelledby="features"
+      >
         <h2 id="features" className="label md:col-span-3">
           What it does
         </h2>
         <ul className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 md:col-span-9">
           {study.features.map((f) => (
             <li key={f.title} className="bg-bg p-6">
-              <h3 className="text-lg font-semibold tracking-[-0.02em]">{f.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{f.body}</p>
+              <h3 className="text-lg font-semibold tracking-[-0.02em]">
+                {f.title}
+              </h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">
+                {f.body}
+              </p>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="mt-16 grid gap-10 md:grid-cols-12" aria-labelledby="flow">
+      <section
+        className="mt-16 grid gap-10 md:grid-cols-12"
+        aria-labelledby="flow"
+      >
         <h2 id="flow" className="label md:col-span-3">
           How it works
         </h2>
         <ol className="md:col-span-9">
           {study.flow.map((step, n) => (
-            <li key={step} className="flex gap-5 border-t border-line py-4 text-[16px] leading-relaxed">
-              <span className="label pt-1 tabular-nums text-accent">{pad(n + 1)}</span>
+            <li
+              key={step}
+              className="flex gap-5 border-t border-line py-4 text-[16px] leading-relaxed"
+            >
+              <span className="label pt-1 tabular-nums text-accent">
+                {pad(n + 1)}
+              </span>
               <span>{step}</span>
             </li>
           ))}
         </ol>
       </section>
 
-      <section className="mt-16 grid gap-10 md:grid-cols-12" aria-labelledby="stack">
+      <section
+        className="mt-16 grid gap-10 md:grid-cols-12"
+        aria-labelledby="stack"
+      >
         <h2 id="stack" className="label md:col-span-3">
           Stack
         </h2>
@@ -179,7 +301,10 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         </ul>
       </section>
 
-      <section className="mt-24 border-t border-line pt-8" aria-labelledby="more">
+      <section
+        className="mt-24 border-t border-line pt-8"
+        aria-labelledby="more"
+      >
         <h2 id="more" className="label text-muted">
           More projects
         </h2>

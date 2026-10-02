@@ -37,5 +37,5 @@ export const site = {
   pypi: "https://pypi.org/user/SohamChaudhari2004",
 
   /** Titles from data/projects.ts shown in the pinned "Selected work" reel. Everything else goes to Explore. */
-  featured: ["VISION AI", "MOSAIC", "GPTs", "AI Agents"],
+  featured: ["MOSAIC", "GPTs", "Stock AI", "VISION AI", "Face Detection", "MNIST CNN"],
 } as const;

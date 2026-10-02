@@ -9,6 +9,7 @@ import { featuredProjects, stats, pad, type ProjectView } from "@/lib/derive";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { work as copy } from "@/data/content";
 import { caseStudies } from "@/data/caseStudies";
+import { seo } from "@/data/seo";
 import ProjectCover from "@/components/ui/ProjectCover";
 import GithubIcon from "@/components/ui/GithubIcon";
 import { scrollToId } from "@/components/chrome/SmoothScroll";
@@ -21,7 +22,7 @@ function Visual({ project }: { project: ProjectView }) {
           <span className="size-2 rounded-full bg-[#ff5f57]" />
           <span className="size-2 rounded-full bg-[#febc2e]" />
           <span className="size-2 rounded-full bg-[#28c840]" />
-          <span className="label ml-3 truncate text-muted">{project.liveLink || project.githubLink}</span>
+          <span className="label ml-3 truncate text-muted">{project.liveLink ? new URL(project.liveLink, seo.url).href : project.githubLink}</span>
         </div>
         <div className="relative flex-1 overflow-hidden">
           <Image
@@ -99,14 +100,21 @@ function WorkCard({ project, i }: { project: ProjectView; i: number }) {
               Case study <ArrowUpRight size={14} />
             </Link>
           )}
-          <a href={project.githubLink} target="_blank" rel="noreferrer" className="btn-line" data-cursor="Repo">
-            <GithubIcon size={15} /> Source
-          </a>
-          {project.liveLink && (
-            <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn-line" data-cursor="Live">
-              Live demo <ArrowUpRight size={14} />
+          {project.githubLink && (
+            <a href={project.githubLink} target="_blank" rel="noreferrer" className="btn-line" data-cursor="Repo">
+              <GithubIcon size={15} /> Source
             </a>
           )}
+          {project.liveLink &&
+            (project.liveLink.startsWith("/") ? (
+              <Link href={project.liveLink} className="btn-line" data-cursor="Live">
+                Try it live <ArrowUpRight size={14} />
+              </Link>
+            ) : (
+              <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn-line" data-cursor="Live">
+                Live demo <ArrowUpRight size={14} />
+              </a>
+            ))}
         </div>
       </div>
 

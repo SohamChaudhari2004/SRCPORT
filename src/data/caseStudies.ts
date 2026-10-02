@@ -2,6 +2,11 @@
  * Long-form copy for the featured project pages (/projects/[slug]).
  * Keyed by project slug (title lowercased, non-alphanumerics to "-").
  */
+export interface CaseStudyMedia {
+  /** Screen recordings of the product, shown in a "See it work" section. */
+  videos?: { src: string; poster: string; title: string; caption: string }[];
+}
+
 export interface CaseStudy {
   /** One line under the title; also the page's meta description lead. */
   tagline: string;
@@ -13,6 +18,7 @@ export interface CaseStudy {
   flow: string[];
   stack: string[];
   keywords: string[];
+  media?: CaseStudyMedia;
 }
 
 export const caseStudies: Record<string, CaseStudy> = {
@@ -40,6 +46,107 @@ export const caseStudies: Record<string, CaseStudy> = {
     ],
     stack: ["Python", "FastAPI", "LangChain", "CLIP", "Whisper", "ChromaDB", "FAISS", "Groq", "Mistral", "FFmpeg", "PyTorch", "Next.js", "Docker", "MCP"],
     keywords: ["AI video search", "multimodal RAG", "video question answering", "CLIP video retrieval", "MCP server", "LangChain agent"],
+    media: {
+      videos: [
+        {
+          src: "/assets/mosaic/mosaic-demo-1.mp4",
+          poster: "/assets/mosaic/poster-1.webp",
+          title: "Find a clip by describing it",
+          caption: "Asked for the part where the Swift network is explained, MOSAIC returns a 20-second clip with its exact timestamps.",
+        },
+        {
+          src: "/assets/mosaic/mosaic-demo-2.mp4",
+          poster: "/assets/mosaic/poster-2.webp",
+          title: "Search with an image",
+          caption: "Upload a frame and ask for the moment it appears. The query is matched against CLIP embeddings of the video.",
+        },
+        {
+          src: "/assets/mosaic/mosaic-demo-3.mp4",
+          poster: "/assets/mosaic/poster-3.webp",
+          title: "Image to clip, then explain",
+          caption: "The matching 10-second clip comes back, then the same chat summarises what the whole video is about.",
+        },
+      ],
+    },
+  },
+
+  "stock-ai": {
+    seoTitle: "Stock AI: LLM Stock Analysis Agent and MCP Server with FastAPI",
+    tagline: "Ask about any stock in plain English. An agent fetches live market data and answers.",
+    overview: [
+      "Stock AI is an HTTP API for stock market data with an LLM agent on top. You ask a question such as \"What is Nvidia trading at and what is its P/E?\" and the agent decides which data it needs, calls the right tools, and answers in Markdown with tables.",
+      "It merges two earlier projects, an MCP server of stock tools and a LangGraph stock screener, into one FastAPI service. The same tools are also available as an MCP server, so Claude Desktop or an IDE can use them directly.",
+      "It is built to be called from a public website: API-key auth, per-IP rate limits, restricted CORS, response caching and clear error codes. The live demo on this site calls it through a server-side proxy so the key never reaches the browser.",
+    ],
+    features: [
+      { title: "Tool-calling agent", body: "A LangChain agent on Groq's gpt-oss-120b chooses between ticker search, prices, company info, income statements and screeners for each question." },
+      { title: "Conversation memory", body: "Each conversation has a thread ID, so follow-ups like \"and its revenue trend?\" keep context. Old turns are trimmed to bound cost." },
+      { title: "Plain data endpoints", body: "The same data is available as JSON without the LLM: search, price history, company metrics, financials and 15 Yahoo Finance screens." },
+      { title: "MCP server", body: "An optional MCP server exposes the tools over stdio for Claude Desktop and IDE assistants." },
+      { title: "Built for public traffic", body: "API keys with zero-downtime rotation, per-IP rate limits with standard headers, CORS limited to known origins, and cached responses." },
+      { title: "Graceful failure", body: "Typed errors for bad input, unknown tickers, rate limits, provider outages and timeouts, each with a Retry-After hint where it helps." },
+    ],
+    flow: [
+      "The client sends a question, plus the thread ID of an ongoing conversation.",
+      "The API checks the key and rate limit, then loads that thread's recent history.",
+      "The agent plans which tools to call and fetches live data from Yahoo Finance through yfinance, using cached results where fresh enough.",
+      "The model writes a Markdown answer from the data and returns it with the list of tools it used.",
+      "The thread is saved, so the next message continues the same conversation.",
+    ],
+    stack: ["Python", "FastAPI", "LangChain", "LangGraph", "Groq", "gpt-oss-120b", "yfinance", "MCP", "Docker", "Render", "uv", "pytest"],
+    keywords: ["LLM stock analysis agent", "yfinance MCP server", "FastAPI AI agent", "LangChain tool calling", "Groq agent", "stock market chatbot", "Model Context Protocol"],
+  },
+
+  "face-detection": {
+    seoTitle: "Real-Time Face Detection in the Browser with ONNX",
+    tagline: "Face and landmark detection that runs live in your browser, with nothing uploaded.",
+    overview: [
+      "A real-time face detector that runs entirely on the visitor's device. It finds every face in a photo or webcam feed, scores it, and marks five facial landmarks: both eyes, the nose tip and the mouth corners.",
+      "It uses YuNet, OpenCV's lightweight face detection model, exported to ONNX. I wrote the whole inference pipeline for the browser: preprocessing, decoding the raw model outputs, non-maximum suppression and drawing. There is no server and no Python, so images never leave the device.",
+    ],
+    features: [
+      { title: "Runs in the browser", body: "ONNX Runtime Web executes the model with WebAssembly. No backend, no GPU, no install." },
+      { title: "Private by design", body: "Photos and video frames are processed on the device and never uploaded anywhere." },
+      { title: "Live webcam mode", body: "Detects faces frame by frame from the camera, one inference at a time so it never queues up." },
+      { title: "Five-point landmarks", body: "Eyes, nose tip and mouth corners for every face, ready for alignment or cropping." },
+      { title: "Tiny model", body: "Under 250 KB, so it downloads and starts almost instantly, even on mobile." },
+      { title: "Custom decoder", body: "Anchor decoding and NMS written in TypeScript, matching OpenCV's FaceDetectorYN." },
+    ],
+    flow: [
+      "Letterbox the image or video frame into a 640x640 canvas, keeping its aspect ratio.",
+      "Pack the pixels into a planar BGR float tensor, the layout the model expects.",
+      "Run YuNet with ONNX Runtime Web on WebAssembly.",
+      "Decode class, objectness, box and landmark outputs at strides 8, 16 and 32.",
+      "Drop overlapping boxes with non-maximum suppression and draw the results.",
+    ],
+    stack: ["ONNX", "ONNX Runtime Web", "WebAssembly", "YuNet", "Computer vision", "TypeScript", "Canvas API", "WebRTC"],
+    keywords: ["face detection in browser", "YuNet ONNX", "ONNX Runtime Web", "real-time face detection", "client-side computer vision", "facial landmarks"],
+  },
+
+  "mnist-cnn": {
+    seoTitle: "MNIST CNN: Handwritten Digit Recognition in the Browser",
+    tagline: "A PyTorch CNN that reads your handwriting live, running in the browser through ONNX.",
+    overview: [
+      "A convolutional neural network trained from scratch in PyTorch on the MNIST handwritten digit dataset, then exported to ONNX so it can run anywhere without PyTorch.",
+      "Draw a digit on the pad and the model classifies it as you draw, showing its confidence for every class from 0 to 9. I trained it alongside a plain MLP baseline to compare how much convolution helps on image data.",
+    ],
+    features: [
+      { title: "Two-block CNN", body: "Two convolution blocks (32 then 64 filters) with ReLU and max pooling, then a 128-unit dense head." },
+      { title: "Trained from scratch", body: "PyTorch training loop with Adam and cross-entropy over 10 epochs on 60,000 digits." },
+      { title: "MLP baseline", body: "A 784-128-64-10 fully connected network trained the same way, as a point of comparison." },
+      { title: "Exported to ONNX", body: "About 420K parameters in a 1.7 MB file, served as a static asset." },
+      { title: "Live inference", body: "Classifies while you draw, with at most one inference in flight at a time." },
+      { title: "Matching preprocessing", body: "Crop, scale to 20x20 and centre on 28x28, exactly as during training." },
+    ],
+    flow: [
+      "Train the CNN in PyTorch on MNIST with inputs normalised to [-1, 1].",
+      "Export the trained weights to ONNX.",
+      "In the browser, crop the drawing to its bounding box and scale it into 20x20.",
+      "Centre it on a 28x28 canvas and normalise it the same way as in training.",
+      "Run the model with ONNX Runtime Web and softmax the logits into confidences.",
+    ],
+    stack: ["Python", "PyTorch", "CNN", "ONNX", "ONNX Runtime Web", "WebAssembly", "TypeScript"],
+    keywords: ["MNIST CNN", "handwritten digit recognition", "PyTorch to ONNX", "CNN in browser", "ONNX Runtime Web", "digit classifier demo"],
   },
 
   "vision-ai": {

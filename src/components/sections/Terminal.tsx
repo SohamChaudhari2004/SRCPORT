@@ -49,8 +49,8 @@ const COMMANDS: Record<string, { desc: string; run: (args: string[]) => string |
       const n = Number(q);
       const p = Number.isFinite(n) && n > 0 ? projectViews[n - 1] : projectViews.find((x) => x.title.toLowerCase().includes(q));
       if (!p) return `open: no project matches "${q}"`;
-      open(p.githubLink);
-      return `opening github.com/${p.repo} ↗`;
+      open(p.githubLink || `/projects/${p.slug}`);
+      return p.githubLink ? `opening github.com/${p.repo} ↗` : `opening /projects/${p.slug} ↗`;
     },
   },
   skills: {
