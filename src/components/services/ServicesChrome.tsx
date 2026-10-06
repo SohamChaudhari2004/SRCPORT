@@ -4,6 +4,8 @@
 import { ArrowUpRight } from "lucide-react";
 import { site } from "@/data/profile";
 import { servicesCta } from "@/data/services";
+import ThemeSwitch from "./ThemeSwitch";
+import { ContactButton } from "./ServicesContact";
 
 /** Header for the services site. Links are relative to services.sohamchaudhari.in. */
 export function ServicesHeader() {
@@ -27,9 +29,8 @@ export function ServicesHeader() {
           <a href="/#faq" className="label hidden text-muted hover:text-accent md:inline">
             FAQ
           </a>
-          <a href={servicesCta.mailto} className="btn-brutal">
-            Start a project
-          </a>
+          <ThemeSwitch />
+          <ContactButton className="btn-brutal">Start a project</ContactButton>
         </nav>
       </div>
     </header>
@@ -61,7 +62,7 @@ export function ServicesFooter() {
 }
 
 /** Closing call to action, shared by the services home and solution pages. */
-export function CtaBlock({ title = servicesCta.title, mailto = servicesCta.mailto }: { title?: string; mailto?: string }) {
+export function CtaBlock({ title = servicesCta.title, topic }: { title?: string; topic?: string }) {
   return (
     <section className="mt-24 rounded-[28px] bg-ink p-8 text-bg md:p-14" aria-labelledby="cta">
       <h2 id="cta" className="max-w-[20ch] text-[clamp(2rem,5vw,4rem)] font-bold uppercase leading-[0.9] tracking-[-0.05em]">
@@ -69,14 +70,17 @@ export function CtaBlock({ title = servicesCta.title, mailto = servicesCta.mailt
       </h2>
       <p className="mt-5 max-w-[52ch] text-[17px] leading-relaxed opacity-80">{servicesCta.body}</p>
       <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <a
-          href={mailto}
+        <ContactButton
+          topic={topic}
           className="inline-flex items-center gap-2 rounded-full bg-bg px-5 py-3 text-[15px] font-semibold text-ink transition-transform hover:-translate-y-0.5"
         >
-          {site.email} <ArrowUpRight size={15} />
+          Start a project <ArrowUpRight size={15} />
+        </ContactButton>
+        <a href={`mailto:${site.email}`} className="text-[15px] underline-offset-4 opacity-80 hover:underline">
+          {site.email}
         </a>
         <a href={site.linkedin} target="_blank" rel="noreferrer" className="text-[15px] underline-offset-4 opacity-80 hover:underline">
-          or message us on LinkedIn
+          LinkedIn
         </a>
       </div>
     </section>

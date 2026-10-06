@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { servicesUrl } from "@/data/services";
+import { ServicesContactModal } from "@/components/services/ServicesContact";
 
 // The services pages live on their own subdomain, so their canonical and OG image
 // URLs resolve against it rather than the portfolio's domain.
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function ServicesLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <ServicesContactModal />
+    </>
+  );
 }

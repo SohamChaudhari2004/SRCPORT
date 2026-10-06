@@ -5,10 +5,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
 import { seo } from "@/data/seo";
-import { mailtoFor, servicesUrl, solutions, solutionUrl } from "@/data/services";
+import { servicesUrl, solutions, solutionUrl } from "@/data/services";
 import SolutionMedia from "@/components/services/SolutionMedia";
 import { organizationNode } from "@/lib/jsonld";
 import { CtaBlock, ServicesFooter, ServicesHeader } from "@/components/services/ServicesChrome";
+import { ContactButton } from "@/components/services/ServicesContact";
 
 // One page per solution, served at services.sohamchaudhari.in/<slug> (see src/proxy.ts).
 
@@ -94,9 +95,9 @@ export default async function SolutionPage({ params }: Props) {
             </h1>
             <p className="mt-6 max-w-[48ch] text-[clamp(1.1rem,1.8vw,1.35rem)] leading-relaxed text-ink">{s.tagline}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href={mailtoFor(s)} className="btn-brutal">
+              <ContactButton topic={s.title} className="btn-brutal">
                 Get this built <ArrowUpRight size={14} />
-              </a>
+              </ContactButton>
               <a href="/#process" className="btn-line">
                 How it works
               </a>
@@ -175,7 +176,7 @@ export default async function SolutionPage({ params }: Props) {
           </section>
         )}
 
-        <CtaBlock title={`Want ${s.title.replace(/ & .*/, "")} for your business?`} mailto={mailtoFor(s)} />
+        <CtaBlock title={`Want ${s.title.replace(/ & .*/, "")} for your business?`} topic={s.title} />
       </main>
 
       <ServicesFooter />

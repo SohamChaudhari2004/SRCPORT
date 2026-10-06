@@ -132,6 +132,8 @@ export const modalCopy = {
   retry: "Try again",
 };
 
+export type ModalCopy = typeof modalCopy;
+
 export const footer = {
   index: "Index",
   elsewhere: "Elsewhere",

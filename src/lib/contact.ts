@@ -7,6 +7,8 @@ export interface ContactState {
   open: boolean;
   /** Viewport point the modal grows out of (the trigger's centre). */
   origin: { x: number; y: number } | null;
+  /** What the enquiry is about (e.g. a solution's title); added to the email subject. */
+  topic?: string;
 }
 
 export interface Draft {
@@ -32,11 +34,11 @@ const centreOf = (src: Source) => {
   return src;
 };
 
-export function openContact(from?: Source) {
+export function openContact(from?: Source, topic?: string) {
   const s = contactStore.get();
   if (s.open) return;
   playOpen();
-  contactStore.set({ open: true, origin: centreOf(from) });
+  contactStore.set({ open: true, origin: centreOf(from), topic });
 }
 
 export function closeContact() {

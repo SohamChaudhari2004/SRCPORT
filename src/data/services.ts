@@ -5,6 +5,7 @@
  * the files in public/assets/solutions/ and set `video` on that solution.
  */
 import { site } from "./profile";
+import { modalCopy, type ModalCopy } from "./content";
 
 export const servicesUrl = "https://services.sohamchaudhari.in";
 
@@ -433,3 +434,22 @@ export const servicesCta = {
 export const mailtoFor = (s: Solution) => `mailto:${site.email}?subject=${encodeURIComponent(`Enquiry: ${s.title}`)}`;
 
 export const solutionUrl = (s: Solution) => `${servicesUrl}/${s.slug}`;
+
+/** Contact dialog copy for the services site: same form as the portfolio, in the team's voice. */
+export const servicesModalCopy: ModalCopy = {
+  ...modalCopy,
+  kicker: "Start a project",
+  headline: { plain: "Let's build what moves your", accent: "business." },
+  body: "Tell us about your business and what is slowing it down. It lands straight in our inbox, and we reply to every enquiry.",
+  formLabel: "Project enquiry",
+  mobileTitle: "Start a project",
+  name: { ...modalCopy.name, error: "Tell us who's writing." },
+  message: {
+    ...modalCopy.message,
+    placeholder: "What does your business do, and what would you like to automate or build?",
+  },
+  submit: "Send enquiry",
+  sentTitle: { plain: "Enquiry", accent: "sent." },
+  sentBody: "Thanks for reaching out. We'll get back to you at the address you left.",
+  limitBody: "You've hit the limit of 5 messages an hour. Try again later, or email us directly at",
+};

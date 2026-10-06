@@ -6,7 +6,6 @@ import {
   faqs,
   industries,
   process,
-  servicesCta,
   servicesPage,
   servicesUrl,
   solutions,
@@ -16,6 +15,7 @@ import {
 import SolutionsGrid from "@/components/services/SolutionsGrid";
 import { organizationNode, personNode } from "@/lib/jsonld";
 import { CtaBlock, ServicesFooter, ServicesHeader } from "@/components/services/ServicesChrome";
+import { ContactButton } from "@/components/services/ServicesContact";
 
 // Served at services.sohamchaudhari.in (src/proxy.ts rewrites "/" there to this page).
 
@@ -96,9 +96,9 @@ export default function ServicesPage() {
           </h1>
           <p className="mt-8 max-w-[60ch] text-[clamp(1.05rem,1.8vw,1.3rem)] leading-relaxed text-ink-2">{servicesPage.lead}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href={servicesCta.mailto} className="btn-brutal">
+            <ContactButton topic="Discovery call" className="btn-brutal">
               Book a discovery call <ArrowUpRight size={14} />
-            </a>
+            </ContactButton>
             <a href="#solutions" className="btn-line">
               Explore solutions
             </a>

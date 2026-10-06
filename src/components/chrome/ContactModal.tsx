@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 import { site } from "@/lib/site";
 import { socials } from "@/lib/socials";
 import { playSuccess } from "@/lib/sound";
-import { modalCopy as copy } from "@/data/content";
+import { modalCopy as copy, type ModalCopy } from "@/data/content";
 import CopyButton from "@/components/ui/CopyButton";
 import { lenisRef } from "./SmoothScroll";
 
@@ -19,7 +19,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 type Errors = Partial<Record<"name" | "email" | "message", string>>;
 
-const validate = (d: Draft): Errors => {
+const validate = (d: Draft, copy: ModalCopy): Errors => {
   const e: Errors = {};
   if (!d.name.trim()) e.name = copy.name.error;
   if (!EMAIL_RE.test(d.email.trim())) e.email = copy.email.error;
@@ -86,7 +86,17 @@ function Field({
 const inputCls =
   "mt-1 w-full border-b-[1.5px] border-line-strong/40 bg-transparent py-2 text-base tracking-[-0.01em] outline-none transition-colors placeholder:text-muted/60 focus:border-accent aria-[invalid=true]:border-signal";
 
-function Dialog({ origin }: { origin: { x: number; y: number } | null }) {
+function Dialog({
+  origin,
+  topic,
+  copy,
+  source,
+}: {
+  origin: { x: number; y: number } | null;
+  topic?: string;
+  copy: ModalCopy;
+  source: string;
+}) {
   const uid = useId();
   const draft = useStore(draftStore);
   const setDraft = updateDraft;
@@ -97,7 +107,7 @@ function Dialog({ origin }: { origin: { x: number; y: number } | null }) {
   const [tried, setTried] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [trap2, setTrap2] = useState(""); // honeypot: humans never see this field
-  const errors = tried ? validate(draft) : {};
+  const errors = tried ? validate(draft, copy) : {};
 
   // Scroll lock + focus handling for the lifetime of the dialog.
   useEffect(() => {
@@ -144,7 +154,7 @@ function Dialog({ origin }: { origin: { x: number; y: number } | null }) {
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setTried(true);
-    const errs = validate(draft);
+    const errs = validate(draft, copy);
     if (Object.keys(errs).length) {
       const first = (["name", "email", "message"] as const).find((k) => errs[k]);
       panelRef.current?.querySelector<HTMLElement>(`#${CSS.escape(`${uid}-${first}`)}`)?.focus();
@@ -156,7 +166,7 @@ function Dialog({ origin }: { origin: { x: number; y: number } | null }) {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...draft, company: trap2 }),
+        body: JSON.stringify({ ...draft, company: trap2, source, topic }),
       });
       if (res.status === 429) return setStatus("limited");
       if (!res.ok) throw new Error(String(res.status));
@@ -484,8 +494,15 @@ function Dialog({ origin }: { origin: { x: number; y: number } | null }) {
   );
 }
 
-/** Contact dialog: form posted to /api/contact + every direct channel. Opened via lib/contact. */
-export default function ContactModal() {
-  const { open, origin } = useStore(contactStore);
-  return <AnimatePresence>{open && <Dialog key="contact" origin={origin} />}</AnimatePresence>;
+/**
+ * Contact dialog: form posted to /api/contact + every direct channel. Opened via lib/contact.
+ * The services site passes its own copy and source so enquiries are labelled in the inbox.
+ */
+export default function ContactModal({ copy: text = copy, source = "portfolio" }: { copy?: ModalCopy; source?: string }) {
+  const { open, origin, topic } = useStore(contactStore);
+  return (
+    <AnimatePresence>
+      {open && <Dialog key="contact" origin={origin} topic={topic} copy={text} source={source} />}
+    </AnimatePresence>
+  );
 }

@@ -75,6 +75,8 @@ export async function POST(request: Request) {
   const name = clean(body.name, LIMITS.name);
   const email = clean(body.email, LIMITS.email);
   const message = clean(body.message, LIMITS.message);
+  const fromServices = body.source === "services";
+  const topic = clean(body.topic, 120).replace(/[\r\n]+/g, " ");
   if (!name || !EMAIL_RE.test(email) || message.length < 10) {
     return Response.json({ ok: false, error: "Invalid input" }, { status: 422 });
   }
@@ -96,10 +98,10 @@ export async function POST(request: Request) {
 
   try {
     await transporter.sendMail({
-      from: `"Portfolio contact" <${GMAIL_USER}>`,
+      from: `"${fromServices ? "Services enquiry" : "Portfolio contact"}" <${GMAIL_USER}>`,
       to: CONTACT_TO || "sohamrc08@gmail.com",
       replyTo: { name, address: email },
-      subject: `New message from ${name.replace(/[\r\n]+/g, " ")}`,
+      subject: `${fromServices ? "Project enquiry" : "New message"}${topic ? ` (${topic})` : ""} from ${name.replace(/[\r\n]+/g, " ")}`,
       text: `${message}\n\nFrom: ${name} <${email}>`,
       html: `<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#15130f">
   <p style="white-space:pre-wrap;margin:0 0 20px">${escape(message)}</p>
