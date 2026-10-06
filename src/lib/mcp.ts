@@ -8,7 +8,7 @@ import { aboutPage, contactPage } from "@/data/pages";
 import { caseStudies } from "@/data/caseStudies";
 import { demos } from "@/components/playground/demos";
 import { featuredProjects, projectViews } from "@/lib/derive";
-import { demoMd, homeMd, infoMd, projectMd } from "@/lib/agentContent";
+import { demoMd, homeMd, infoMd, projectMd, servicesMd } from "@/lib/agentContent";
 
 export const MCP_PROTOCOL_VERSIONS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
 
@@ -77,6 +77,13 @@ const tools: Tool[] = [
     description: "Live AI demos that can be tried in a browser, with what each one runs on.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
     run: () => demos.map((d) => demoMd(d.slug)).join("\n\n"),
+  },
+  {
+    name: "get_services",
+    title: "Get services",
+    description: `AI engineering services ${site.name} offers for hire, how projects work and how pricing is set.`,
+    inputSchema: { type: "object", properties: {}, additionalProperties: false },
+    run: () => servicesMd(),
   },
   {
     name: "get_contact",

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { gsap, SplitText, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { resumeUrl } from "@/lib/derive";
+import { servicesUrl } from "@/data/services";
 import { socials } from "@/lib/socials";
 import { openContact } from "@/lib/contact";
 import { site } from "@/lib/site";
@@ -101,6 +102,7 @@ export default function Footer() {
           <Link href="/contact" className="hover:text-accent">Contact</Link>
           <Link href="/privacy" className="hover:text-accent">Privacy</Link>
           <Link href="/playground" className="hover:text-accent">Playground</Link>
+          <a href={servicesUrl} className="hover:text-accent">Services</a>
         </span>
         <span>
           {site.role} · {copy.signoff}

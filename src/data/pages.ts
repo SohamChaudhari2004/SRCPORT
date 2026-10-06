@@ -70,7 +70,10 @@ export const contactPage: InfoPage = {
       paragraphs: [
         `Email is the fastest way to reach me: ${site.email}. For a role or a project, a few lines on what you are building, the problem you want solved and any timeline helps me give you a useful answer.`,
       ],
-      links: [{ label: site.email, href: `mailto:${site.email}` }],
+      links: [
+        { label: site.email, href: `mailto:${site.email}` },
+        { label: "Services", href: "https://services.sohamchaudhari.in", note: "What I build for clients" },
+      ],
     },
     {
       heading: "Elsewhere",
@@ -133,7 +136,7 @@ export const privacyPage: InfoPage = {
 };
 
 /** Tool names served by /mcp. Kept in sync with src/lib/mcp.ts by a test. */
-export const MCP_TOOL_NAMES = ["get_profile", "list_projects", "get_project", "list_demos", "get_contact"];
+export const MCP_TOOL_NAMES = ["get_profile", "list_projects", "get_project", "list_demos", "get_services", "get_contact"];
 
 export const developersPage: InfoPage = {
   path: "/developers",
