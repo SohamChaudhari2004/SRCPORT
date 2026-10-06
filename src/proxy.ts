@@ -30,15 +30,15 @@ const rewrite = (request: NextRequest, pathname: string) => {
 };
 
 /**
- * services.sohamchaudhari.in serves only the services page (plus its own robots.txt and
- * sitemap); any other page path there redirects to the same path on the main site.
+ * services.sohamchaudhari.in is its own site: "/" is the services home and "/<slug>" a
+ * solution page, both served from app/services. It has its own robots.txt and sitemap.
  */
 function servicesHost(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
+  const { pathname } = request.nextUrl;
   if (pathname === "/robots.txt" || pathname === "/sitemap.xml") return rewrite(request, `/services-${pathname.slice(1)}`);
-  if (SKIP.test(pathname) || pathname.startsWith("/services/")) return NextResponse.next();
-  if (pathname === "/") return rewrite(request, wantsMarkdown(request) ? "/md/services" : "/services");
-  return NextResponse.redirect(`${seo.url}${pathname}${search}`, 308);
+  if (SKIP.test(pathname) || pathname === "/services" || pathname.startsWith("/services/")) return NextResponse.next();
+  const page = `/services${pathname === "/" ? "" : pathname}`;
+  return rewrite(request, wantsMarkdown(request) ? `/md${page}` : page);
 }
 
 /**
@@ -51,7 +51,9 @@ export function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
   // Only in production, so /services still works on localhost.
-  if (pathname === "/services" && MAIN_HOSTS.has(host)) return NextResponse.redirect(servicesUrl, 308);
+  if (MAIN_HOSTS.has(host) && (pathname === "/services" || pathname.startsWith("/services/"))) {
+    return NextResponse.redirect(`${servicesUrl}${pathname.slice("/services".length) || "/"}`, 308);
+  }
 
   // Pages only: skip API routes, Next internals, the Markdown routes, the MCP endpoint and files.
   if (SKIP.test(pathname)) return NextResponse.next();

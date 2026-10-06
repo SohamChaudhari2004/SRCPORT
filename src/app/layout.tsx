@@ -6,8 +6,15 @@ import { seo } from "@/data/seo";
 import { site } from "@/data/profile";
 import { fontVariables } from "./fonts";
 
-/** Cloudflare Web Analytics site token (public, safe to commit). Set to "" to disable. */
+/**
+ * Cloudflare Web Analytics site tokens (public, safe to commit). The services subdomain is
+ * tracked as its own site. Set a token to "" to disable tracking there.
+ */
 const CF_ANALYTICS_TOKEN = "20beb2b4098d4b23bef6785847949c99";
+const CF_SERVICES_TOKEN = "1bd9b2ad672b44ce94122e45fd595455";
+
+// Loads one beacon with the token for the current host, so each site counts only its own visits.
+const cfBeaconScript = `(function(){var t=location.hostname.indexOf("services.")===0?${JSON.stringify(CF_SERVICES_TOKEN)}:${JSON.stringify(CF_ANALYTICS_TOKEN)};if(!t)return;var s=document.createElement("script");s.defer=true;s.src="https://static.cloudflareinsights.com/beacon.min.js";s.setAttribute("data-cf-beacon",JSON.stringify({token:t}));document.head.appendChild(s)})()`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(seo.url),
@@ -74,12 +81,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         {children}
         {/* Cloudflare Web Analytics: production only, so local dev visits aren't counted. */}
-        {process.env.NODE_ENV === "production" && CF_ANALYTICS_TOKEN && (
-          <Script
-            src="https://static.cloudflareinsights.com/beacon.min.js"
-            strategy="afterInteractive"
-            data-cf-beacon={JSON.stringify({ token: CF_ANALYTICS_TOKEN })}
-          />
+        {process.env.NODE_ENV === "production" && (
+          <Script id="cf-analytics" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: cfBeaconScript }} />
         )}
       </body>
     </html>

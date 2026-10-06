@@ -72,7 +72,7 @@ export const contactPage: InfoPage = {
       ],
       links: [
         { label: site.email, href: `mailto:${site.email}` },
-        { label: "Services", href: "https://services.sohamchaudhari.in", note: "What I build for clients" },
+        { label: "Freelance solutions", href: "https://services.sohamchaudhari.in", note: "What I build for businesses" },
       ],
     },
     {

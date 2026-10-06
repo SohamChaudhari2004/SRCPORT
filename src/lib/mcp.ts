@@ -81,7 +81,7 @@ const tools: Tool[] = [
   {
     name: "get_services",
     title: "Get services",
-    description: `AI engineering services ${site.name} offers for hire, how projects work and how pricing is set.`,
+    description: `Freelance solutions ${site.name} builds for businesses (AI chatbots, CRM, ERP, voice agents, automation, websites), how projects work and how pricing is set.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
     run: () => servicesMd(),
   },

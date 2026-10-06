@@ -5,7 +5,7 @@ export const ogSize = { width: 1200, height: 630 };
 
 /** Social preview card for sub-pages, in the same style as the home page card. */
 export function ogCard({ eyebrow, title, subtitle, tags = [] }: { eyebrow: string; title: string; subtitle: string; tags?: string[] }) {
-  const titleSize = title.length > 14 ? 96 : 132;
+  const titleSize = title.length > 24 ? 76 : title.length > 14 ? 96 : 132;
   return new ImageResponse(
     (
       <div

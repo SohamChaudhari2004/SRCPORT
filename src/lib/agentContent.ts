@@ -8,7 +8,7 @@ import { experience } from "@/data/experience";
 import { achievements } from "@/data/achievements";
 import { caseStudies } from "@/data/caseStudies";
 import { infoPages, type InfoPage } from "@/data/pages";
-import { engagements, faqs, process, services, servicesCta, servicesPage, servicesUrl } from "@/data/services";
+import { engagements, faqs, industries, process, servicesCta, servicesPage, servicesUrl, solutions, solutionUrl, valueProps } from "@/data/services";
 import { demos } from "@/components/playground/demos";
 import { exploreProjects, featuredProjects, projectViews, resumeUrl } from "@/lib/derive";
 
@@ -132,18 +132,14 @@ export function servicesMd() {
   return doc(
     `# ${servicesPage.title}`,
     `> ${servicesPage.lead}`,
-    `Page: ${servicesUrl} · Contact: ${site.email}`,
-    ...services.map((s) =>
-      [
-        `## ${s.title}`,
-        s.pitch,
-        list(s.deliverables),
-        s.proof?.length && `Examples: ${s.proof.map((p) => `[${p.label}](${p.href})`).join(", ")}`,
-      ]
-        .filter(Boolean)
-        .join("\n\n"),
-    ),
-    "## How we work",
+    `Site: ${servicesUrl} · Contact: ${site.email}`,
+    "## Why work with me",
+    list(valueProps.map((v) => `**${v.title}**: ${v.body}`)),
+    "## Solutions",
+    list(solutions.map((s) => `[${s.title}](${solutionUrl(s)}) (${s.category}): ${s.tagline}`)),
+    "## Industries",
+    industries.join(", "),
+    "## How it works",
     process.map((p, i) => `${i + 1}. **${p.title}**: ${p.body}`).join("\n"),
     "## Ways to work together",
     list(engagements.map((e) => `**${e.title}**: ${e.body}`)),
@@ -152,6 +148,25 @@ export function servicesMd() {
     faqs.map((f) => `**${f.q}**\n\n${f.a}`).join("\n\n"),
     `## ${servicesCta.title}`,
     `${servicesCta.body} Email ${site.email}.`,
+  );
+}
+
+export function solutionMd(slug: string) {
+  const s = solutions.find((x) => x.slug === slug);
+  if (!s) return null;
+  return doc(
+    `# ${s.title}`,
+    `> ${s.tagline}`,
+    `Category: ${s.category} · Page: ${solutionUrl(s)} · All solutions: ${servicesUrl}`,
+    "## The problem",
+    s.problem,
+    "## What you get",
+    list(s.features),
+    "## The impact",
+    list(s.impact),
+    "## Great for",
+    s.industries.join(", "),
+    `To discuss this for your business, email ${site.email}. ${servicesPage.pricing}`,
   );
 }
 
@@ -175,6 +190,11 @@ export function markdownFor(path: string): { status: number; body: string } {
   if (clean === "/") return { status: 200, body: homeMd() };
   if (clean === "/playground") return { status: 200, body: playgroundMd() };
   if (clean === "/services") return { status: 200, body: servicesMd() };
+  const solution = clean.match(/^\/services\/([^/]+)$/);
+  if (solution) {
+    const md = solutionMd(solution[1]);
+    return md ? { status: 200, body: md } : { status: 404, body: notFoundMd(clean) };
+  }
   const info = infoPages.find((p) => p.path === clean);
   if (info) return { status: 200, body: infoMd(info) };
   const project = clean.match(/^\/projects\/([^/]+)$/);

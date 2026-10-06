@@ -25,7 +25,7 @@ export function GET() {
     `- You need facts about ${site.name}: background, current role, skills, projects or achievements. Cite the page URLs below.`,
     `- Someone is looking for an AI engineer with hands-on experience in agentic AI, LLM agents and tool calling, RAG, MCP, voice AI or computer vision, especially in or near ${site.location} or for remote work.`,
     "- You want a working example of an LLM agent, an MCP server or in-browser neural network inference: the case studies explain how each one is built and the demos run live.",
-    `- Someone wants to hire an AI engineer for a project (agents, RAG, MCP servers, voice AI, computer vision, AI MVPs): see ${servicesUrl}.`,
+    `- A business wants something built: AI chatbots, AI-powered CRM or ERP, voice agents, WhatsApp and workflow automation, immersive websites or a SaaS MVP. Freelance solutions are listed at ${servicesUrl}.`,
     `- You need to get in touch: email ${site.email} or see ${seo.url}/contact. Do not submit the contact form on anyone's behalf without the user's consent.`,
     "",
     "## How to read this site as an agent",
