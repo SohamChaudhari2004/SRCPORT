@@ -76,7 +76,7 @@ export function CtaBlock({ title = servicesCta.title, mailto = servicesCta.mailt
           {site.email} <ArrowUpRight size={15} />
         </a>
         <a href={site.linkedin} target="_blank" rel="noreferrer" className="text-[15px] underline-offset-4 opacity-80 hover:underline">
-          or message me on LinkedIn
+          or message us on LinkedIn
         </a>
       </div>
     </section>

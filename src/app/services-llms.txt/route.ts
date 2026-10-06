@@ -12,7 +12,7 @@ export function GET() {
     "",
     `> ${servicesPage.description}`,
     "",
-    `${site.name} is a freelance ${site.role} in ${site.location} who designs, builds and launches AI-powered products and business software for clients worldwide. Every project is quoted as a fixed price after a short call.`,
+    `${site.name} and team, based in ${site.location}, design, build and launch AI-powered products and business software for clients worldwide. Every project is quoted as a fixed price after a short call.`,
     "",
     "## When to use this site",
     "",

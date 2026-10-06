@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>AI-Powered E-commerce</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+:root{--bg:#0e0d0b;--panel:#171512;--panel2:#1f1c18;--paper:#ece5d8;--ink:#ede5d6;--ink2:#cfc6b5;--muted:#918979;--line:rgba(237,229,214,.12);--line2:rgba(237,229,214,.22);--accent:#8e9bff;--accentd:#2b3bff;--mint:#4fe3c9;--signal:#ff7a45}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg)}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:ui-sans-serif,system-ui,sans-serif;color:var(--ink)}
+.bg{position:absolute;inset:0;background:radial-gradient(55% 65% at 12% 8%,rgba(142,155,255,.20),transparent 60%),radial-gradient(50% 60% at 92% 96%,rgba(79,227,201,.15),transparent 60%)}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:40px 40px;opacity:.3;-webkit-mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent);mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent)}
+.scene{position:absolute;inset:0}
+.eyebrow{position:absolute;left:52px;top:40px;display:flex;gap:10px;align-items:center;font:600 13px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.eyebrow i{display:block;width:8px;height:8px;border-radius:50%;background:var(--mint)}
+.stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:28px;padding:96px 72px 56px}
+.win{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 90px -30px rgba(0,0,0,.75);overflow:hidden}
+.bar{display:flex;gap:7px;align-items:center;height:40px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.bar i{display:block;width:11px;height:11px;border-radius:50%;background:#3d392f}
+.bar span{margin-left:10px;font:500 12px ui-monospace,Consolas,monospace;color:var(--muted)}
+.mono{font-family:ui-monospace,Consolas,monospace}
+.label{font:600 11px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;border:1px solid var(--line2);background:rgba(23,21,18,.92);font:600 13px/1 ui-sans-serif,system-ui,sans-serif;color:var(--ink);white-space:nowrap}
+.chip b{display:block;width:8px;height:8px;border-radius:50%;background:var(--mint)}
+.chip.accent{border-color:rgba(142,155,255,.5);color:var(--accent)}
+.chip.mint{border-color:rgba(79,227,201,.45);color:var(--mint)}
+.chip.signal{border-color:rgba(255,122,69,.5);color:var(--signal)}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:12px}
+.skel{display:block;height:8px;border-radius:4px;background:rgba(237,229,214,.14)}
+.ok{color:var(--mint)}
+.toast{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;background:#24211c;border:1px solid var(--line2);font:600 14px/1.2 ui-sans-serif,system-ui,sans-serif;box-shadow:0 20px 40px -18px rgba(0,0,0,.8)}
+.toast b{display:block;width:10px;height:10px;border-radius:50%;background:var(--mint);flex:none}
+.shop{position:relative;width:1040px;height:450px;padding:20px 24px}.sr{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1px solid var(--line2);background:var(--panel2);font-size:16px;width:560px}.cart{position:absolute;right:28px;top:26px;display:flex;align-items:center;gap:10px;font-weight:700}.cart span{min-width:26px;height:26px;border-radius:999px;background:var(--accentd);color:#fff;display:grid;place-items:center;font:800 13px ui-monospace,Consolas,monospace}.pg{position:relative;margin-top:22px;height:320px}.pc{position:absolute;width:310px;height:148px;padding:12px;display:grid;grid-template-columns:110px 1fr;gap:12px}.pi{border-radius:8px;background:linear-gradient(135deg,#3d392f,#5b554a)}.pc p{font-weight:700;font-size:15px}.pc small{display:block;margin-top:4px;color:var(--muted)}.bm{display:inline-block;margin-top:10px;padding:4px 8px;border-radius:999px;font:700 10px ui-monospace,Consolas,monospace;letter-spacing:.08em;background:rgba(79,227,201,.15);color:var(--mint)}</style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="ai_ecommerce" data-start="0" data-width="1280" data-height="720" data-duration="8">
+      <div class="bg"></div>
+      <div class="grid"></div>
+      <section id="scene" class="scene clip" data-start="0" data-duration="8" data-track-index="0">
+        <div id="eyebrow" class="eyebrow"><i></i>AI-Powered E-commerce</div>
+        <div id="content" class="stage"><div class="win" style=""><div class="bar"><i></i><i></i><i></i><span>store.example.com</span></div><div class="shop"><div class="sr"><span class="label">Search</span><span id="q15" style="white-space:nowrap">comfy running shoes for daily runs</span></div><div class="cart">Cart <span id="cc">0</span></div><div class="pg"><div id="pc0" class="card pc" style="left:0px;top:0px"><div class="pi" style="background:linear-gradient(135deg,var(--accentd),var(--mint))"></div><div><p>Trail runner</p><small>₹4,299</small><span id="bm0" class="bm">BEST MATCH</span></div></div><div id="pc1" class="card pc" style="left:330px;top:0px"><div class="pi"></div><div><p>Leather boot</p><small>₹6,999</small></div></div><div id="pc2" class="card pc" style="left:660px;top:0px"><div class="pi" style="background:linear-gradient(135deg,var(--accentd),var(--mint))"></div><div><p>Cloud jogger</p><small>₹3,899</small><span id="bm2" class="bm">BEST MATCH</span></div></div><div id="pc3" class="card pc" style="left:0px;top:164px"><div class="pi"></div><div><p>Canvas sneaker</p><small>₹2,499</small></div></div><div id="pc4" class="card pc" style="left:330px;top:164px"><div class="pi" style="background:linear-gradient(135deg,var(--accentd),var(--mint))"></div><div><p>Road racer</p><small>₹5,499</small><span id="bm4" class="bm">BEST MATCH</span></div></div><div id="pc5" class="card pc" style="left:660px;top:164px"><div class="pi"></div><div><p>Slip-on</p><small>₹1,999</small></div></div></div></div></div></div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const show = (sel, at, from) => tl.fromTo(sel, Object.assign({ autoAlpha: 0, y: 14 }, from || {}), { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, at);
+      const type = (sel, at, dur) => tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: dur || 1, ease: "none" }, at);
+      const count = (sel, to, at, dur, fmt) => { const o = { v: 0 }; const el = document.querySelector(sel); tl.to(o, { v: to, duration: dur || 1, ease: "power2.out", onUpdate: () => { el.textContent = (fmt || ((v) => Math.round(v)))(o.v); } }, at); };
+      tl.fromTo("#eyebrow", { autoAlpha: 0, x: -12 }, { autoAlpha: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      tl.fromTo("#content", { autoAlpha: 0, scale: 0.965 }, { autoAlpha: 1, scale: 1, duration: 0.6, ease: "power3.out" }, 0);
+
+      show("#pc0", 0.6, { scale: 0.94 }); show("#pc1", 0.6799999999999999, { scale: 0.94 }); show("#pc2", 0.76, { scale: 0.94 }); show("#pc3", 0.84, { scale: 0.94 }); show("#pc4", 0.9199999999999999, { scale: 0.94 }); show("#pc5", 1, { scale: 0.94 });
+      type("#q15", 1.3, 1.5);
+      tl.to("#pc0", { x: 0, y: 0, duration: 0.9, ease: "power3.inOut" }, 3.0);
+      tl.to("#pc2", { x: -330, y: 0, duration: 0.9, ease: "power3.inOut" }, 3.0);
+      tl.to("#pc4", { x: 330, y: -164, duration: 0.9, ease: "power3.inOut" }, 3.0);
+      tl.to("#pc1", { x: -330, y: 164, duration: 0.9, ease: "power3.inOut" }, 3.0);
+      tl.to("#pc3", { x: 330, y: 0, duration: 0.9, ease: "power3.inOut" }, 3.0);
+      tl.to("#pc5", { x: 0, y: 0, duration: 0.9, ease: "power3.inOut" }, 3.0);
+      tl.to(["#pc1", "#pc3", "#pc5"], { opacity: 0.4, duration: 0.5 }, 3.2);
+      show("#bm0", 3.9, { scale: 0.7, y: 0 }); show("#bm2", 4.05, { scale: 0.7, y: 0 }); show("#bm4", 4.2, { scale: 0.7, y: 0 });
+      tl.fromTo("#cc", { scale: 1 }, { scale: 1.35, duration: 0.2, yoyo: true, repeat: 1 }, 5.0);
+      count("#cc", 1, 5.0, 0.1); tl.fromTo("#cc", { scale: 1 }, { scale: 1.35, duration: 0.2, yoyo: true, repeat: 1 }, 5.7);
+      { const o = { v: 1 }; tl.to(o, { v: 2, duration: 0.1, onUpdate: () => { document.querySelector("#cc").textContent = Math.round(o.v); } }, 5.7); }
+      tl.to(["#content", "#eyebrow"], { autoAlpha: 0, scale: 0.985, duration: 0.55, ease: "power2.in" }, 7.35);
+      tl.seek(0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["ai_ecommerce"] = tl;
+    </script>
+  </body>
+</html>

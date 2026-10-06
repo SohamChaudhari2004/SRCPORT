@@ -36,7 +36,7 @@ export interface Solution {
   video?: { src: string; poster: string };
 }
 
-export const solutions: Solution[] = [
+const solutionList: Omit<Solution, "video">[] = [
   {
     slug: "ai-chatbot",
     title: "AI Chatbots & Support Agents",
@@ -345,12 +345,18 @@ export const solutions: Solution[] = [
   },
 ];
 
+/** Every solution has a looping motion graphic (HyperFrames source in motion/solutions-motion). */
+export const solutions: Solution[] = solutionList.map((s) => ({
+  ...s,
+  video: { src: `/assets/solutions/${s.slug}.mp4`, poster: `/assets/solutions/${s.slug}.webp` },
+}));
+
 export const servicesPage = {
   title: `Freelance AI & Software Solutions by ${site.name}`,
   description: `AI chatbots, AI-powered CRM, ERP systems, voice agents, automation and immersive websites, built for your business by ${site.name}. Remote, worldwide.`,
   eyebrow: "Freelance · AI & software solutions",
   headline: "Software that works for your business",
-  lead: "I build AI-powered products and systems that take repetitive work off your team, keep customers happy and help your business grow. You tell me the problem; I design, build and launch the solution.",
+  lead: "We build AI-powered products and systems that take repetitive work off your team, keep customers happy and help your business grow. You tell us the problem; we design, build and launch the solution.",
   pricing: "Every project is quoted after a short first call, as a fixed price for an agreed scope.",
 };
 
@@ -358,7 +364,7 @@ export const valueProps = [
   { title: "Built around your business", body: "Designed for your workflows, your customers and your data, not squeezed into a template." },
   { title: "Launch early, improve weekly", body: "You see a working version early and it gets better every week, based on real use." },
   { title: "You own everything", body: "Code, data and accounts are yours. No lock-in, no surprises." },
-  { title: "Support after launch", body: "I stay on to fix, improve and add features as your business grows." },
+  { title: "Support after launch", body: "We stay on to fix, improve and add features as your business grows." },
 ];
 
 export const industries = [
@@ -390,7 +396,7 @@ export const engagements = [
 export const faqs = [
   {
     q: "Do I need to be technical?",
-    a: "No. Describe the problem in your own words. I handle the technical side and explain decisions in plain language.",
+    a: "No. Describe the problem in your own words. We handle the technical side and explain decisions in plain language.",
   },
   {
     q: "Can it work with the tools I already use?",
@@ -402,7 +408,7 @@ export const faqs = [
   },
   {
     q: "Do you work with businesses outside India?",
-    a: `Yes. I work remotely with clients anywhere, from ${site.location} (${site.timeZoneLabel}).`,
+    a: `Yes. We work remotely with clients anywhere, from ${site.location} (${site.timeZoneLabel}).`,
   },
   {
     q: "Who owns the code and data?",
@@ -420,7 +426,7 @@ export const faqs = [
 
 export const servicesCta = {
   title: "Let's build something that moves your business",
-  body: "Tell me about your business and what is slowing it down. I reply to every enquiry.",
+  body: "Tell us about your business and what is slowing it down. We reply to every enquiry.",
   mailto: `mailto:${site.email}?subject=${encodeURIComponent("Project enquiry")}`,
 };
 

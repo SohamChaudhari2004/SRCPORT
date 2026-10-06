@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>Internal Knowledge Assistant</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+:root{--bg:#0e0d0b;--panel:#171512;--panel2:#1f1c18;--paper:#ece5d8;--ink:#ede5d6;--ink2:#cfc6b5;--muted:#918979;--line:rgba(237,229,214,.12);--line2:rgba(237,229,214,.22);--accent:#8e9bff;--accentd:#2b3bff;--mint:#4fe3c9;--signal:#ff7a45}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg)}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:ui-sans-serif,system-ui,sans-serif;color:var(--ink)}
+.bg{position:absolute;inset:0;background:radial-gradient(55% 65% at 12% 8%,rgba(142,155,255,.20),transparent 60%),radial-gradient(50% 60% at 92% 96%,rgba(79,227,201,.15),transparent 60%)}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:40px 40px;opacity:.3;-webkit-mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent);mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent)}
+.scene{position:absolute;inset:0}
+.eyebrow{position:absolute;left:52px;top:40px;display:flex;gap:10px;align-items:center;font:600 13px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.eyebrow i{display:block;width:8px;height:8px;border-radius:50%;background:var(--mint)}
+.stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:28px;padding:96px 72px 56px}
+.win{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 90px -30px rgba(0,0,0,.75);overflow:hidden}
+.bar{display:flex;gap:7px;align-items:center;height:40px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.bar i{display:block;width:11px;height:11px;border-radius:50%;background:#3d392f}
+.bar span{margin-left:10px;font:500 12px ui-monospace,Consolas,monospace;color:var(--muted)}
+.mono{font-family:ui-monospace,Consolas,monospace}
+.label{font:600 11px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;border:1px solid var(--line2);background:rgba(23,21,18,.92);font:600 13px/1 ui-sans-serif,system-ui,sans-serif;color:var(--ink);white-space:nowrap}
+.chip b{display:block;width:8px;height:8px;border-radius:50%;background:var(--mint)}
+.chip.accent{border-color:rgba(142,155,255,.5);color:var(--accent)}
+.chip.mint{border-color:rgba(79,227,201,.45);color:var(--mint)}
+.chip.signal{border-color:rgba(255,122,69,.5);color:var(--signal)}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:12px}
+.skel{display:block;height:8px;border-radius:4px;background:rgba(237,229,214,.14)}
+.ok{color:var(--mint)}
+.toast{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;background:#24211c;border:1px solid var(--line2);font:600 14px/1.2 ui-sans-serif,system-ui,sans-serif;box-shadow:0 20px 40px -18px rgba(0,0,0,.8)}
+.toast b{display:block;width:10px;height:10px;border-radius:50%;background:var(--mint);flex:none}
+.kb{display:grid;grid-template-columns:220px 1fr;width:1000px;height:440px}.docs{border-right:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:10px}.doc{display:flex;gap:10px;align-items:center;padding:10px;border-radius:8px;font-size:13px;color:var(--ink2);border:1px solid transparent}.doc i{display:block;width:16px;height:20px;border-radius:3px;background:rgba(237,229,214,.25);flex:none}.main{padding:26px 30px;display:flex;flex-direction:column;gap:18px}.ask{display:flex;align-items:center;gap:12px;padding:16px 18px;border-radius:12px;border:1px solid var(--line2);background:var(--panel2);font-size:17px}.ans{padding:20px 22px;border-radius:12px;background:rgba(142,155,255,.07);border:1px solid rgba(142,155,255,.3);font-size:16px;line-height:1.55;color:var(--ink2)}.src{display:flex;gap:10px;margin-top:14px}</style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="knowledge_assistant" data-start="0" data-width="1280" data-height="720" data-duration="8">
+      <div class="bg"></div>
+      <div class="grid"></div>
+      <section id="scene" class="scene clip" data-start="0" data-duration="8" data-track-index="0">
+        <div id="eyebrow" class="eyebrow"><i></i>Internal Knowledge Assistant</div>
+        <div id="content" class="stage"><div class="win" style=""><div class="bar"><i></i><i></i><i></i><span>Team assistant · private</span></div><div class="kb"><div class="docs"><p class="label" style="margin-bottom:6px">Sources</p><div id="d0" class="doc"><i></i>Refund-Policy.pdf</div><div id="d1" class="doc"><i></i>Billing SOP</div><div id="d2" class="doc"><i></i>Onboarding guide</div><div id="d3" class="doc"><i></i>Pricing FAQ</div><div id="d4" class="doc"><i></i>Support macros</div></div><div class="main"><div class="ask"><span class="label" style="color:var(--accent)">Ask</span><span id="q" style="white-space:nowrap">What's our refund policy for annual plans?</span></div><div id="ans" class="ans">Annual plans can be refunded in full within <b style="color:var(--ink)">30 days</b> of purchase. After that, unused months are credited to the account.<div class="src"><span id="s0" class="chip accent"><b style="background:var(--accent)"></b>Refund-Policy.pdf · p.2</span><span id="s1" class="chip"><b></b>Billing SOP</span></div></div></div></div></div></div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const show = (sel, at, from) => tl.fromTo(sel, Object.assign({ autoAlpha: 0, y: 14 }, from || {}), { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, at);
+      const type = (sel, at, dur) => tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: dur || 1, ease: "none" }, at);
+      const count = (sel, to, at, dur, fmt) => { const o = { v: 0 }; const el = document.querySelector(sel); tl.to(o, { v: to, duration: dur || 1, ease: "power2.out", onUpdate: () => { el.textContent = (fmt || ((v) => Math.round(v)))(o.v); } }, at); };
+      tl.fromTo("#eyebrow", { autoAlpha: 0, x: -12 }, { autoAlpha: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      tl.fromTo("#content", { autoAlpha: 0, scale: 0.965 }, { autoAlpha: 1, scale: 1, duration: 0.6, ease: "power3.out" }, 0);
+
+      show("#d0", 0.6, { x: -10 }); show("#d1", 0.7, { x: -10 }); show("#d2", 0.8, { x: -10 }); show("#d3", 0.9, { x: -10 }); show("#d4", 1, { x: -10 });
+      type("#q", 1.0, 1.6);
+      tl.to("#d0", { borderColor: "rgba(142,155,255,.6)", backgroundColor: "rgba(142,155,255,.1)", duration: 0.3 }, 2.8);
+      tl.to("#d1", { borderColor: "rgba(142,155,255,.6)", backgroundColor: "rgba(142,155,255,.1)", duration: 0.3 }, 3.0);
+      show("#ans", 3.3); show("#s0", 4.4, { scale: 0.9 }); show("#s1", 4.7, { scale: 0.9 });
+      tl.to(["#content", "#eyebrow"], { autoAlpha: 0, scale: 0.985, duration: 0.55, ease: "power2.in" }, 7.35);
+      tl.seek(0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["knowledge_assistant"] = tl;
+    </script>
+  </body>
+</html>

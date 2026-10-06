@@ -105,7 +105,7 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        <section aria-label="Why work with me" className="mt-16 md:mt-24">
+        <section aria-label="Why work with us" className="mt-16 md:mt-24">
           <ul className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
             {valueProps.map((v) => (
               <li key={v.title} className="bg-bg p-6">
@@ -125,11 +125,11 @@ export default function ServicesPage() {
                 id="solutions-title"
                 className="mt-2 text-[clamp(1.8rem,4vw,3rem)] font-bold uppercase leading-none tracking-[-0.05em]"
               >
-                What I can build for you
+                What we can build for you
               </h2>
             </div>
             <p className="max-w-[40ch] text-[15px] text-ink-2">
-              Don&apos;t see yours? Most projects start as a problem, not a product. Tell me about it.
+              Don&apos;t see yours? Most projects start as a problem, not a product. Tell us about it.
             </p>
           </div>
           <div className="mt-8">
@@ -139,7 +139,7 @@ export default function ServicesPage() {
 
         <section className="mt-20 grid gap-8 md:mt-28 md:grid-cols-12" aria-labelledby="industries">
           <h2 id="industries" className="label md:col-span-3">
-            Industries I work with
+            Industries we work with
           </h2>
           <ul className="flex flex-wrap gap-2 md:col-span-9">
             {industries.map((i) => (

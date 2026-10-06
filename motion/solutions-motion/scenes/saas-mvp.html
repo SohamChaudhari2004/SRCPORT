@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>SaaS & Product MVPs</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+:root{--bg:#0e0d0b;--panel:#171512;--panel2:#1f1c18;--paper:#ece5d8;--ink:#ede5d6;--ink2:#cfc6b5;--muted:#918979;--line:rgba(237,229,214,.12);--line2:rgba(237,229,214,.22);--accent:#8e9bff;--accentd:#2b3bff;--mint:#4fe3c9;--signal:#ff7a45}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg)}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:ui-sans-serif,system-ui,sans-serif;color:var(--ink)}
+.bg{position:absolute;inset:0;background:radial-gradient(55% 65% at 12% 8%,rgba(142,155,255,.20),transparent 60%),radial-gradient(50% 60% at 92% 96%,rgba(79,227,201,.15),transparent 60%)}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:40px 40px;opacity:.3;-webkit-mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent);mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent)}
+.scene{position:absolute;inset:0}
+.eyebrow{position:absolute;left:52px;top:40px;display:flex;gap:10px;align-items:center;font:600 13px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.eyebrow i{display:block;width:8px;height:8px;border-radius:50%;background:var(--mint)}
+.stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:28px;padding:96px 72px 56px}
+.win{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 90px -30px rgba(0,0,0,.75);overflow:hidden}
+.bar{display:flex;gap:7px;align-items:center;height:40px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.bar i{display:block;width:11px;height:11px;border-radius:50%;background:#3d392f}
+.bar span{margin-left:10px;font:500 12px ui-monospace,Consolas,monospace;color:var(--muted)}
+.mono{font-family:ui-monospace,Consolas,monospace}
+.label{font:600 11px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;border:1px solid var(--line2);background:rgba(23,21,18,.92);font:600 13px/1 ui-sans-serif,system-ui,sans-serif;color:var(--ink);white-space:nowrap}
+.chip b{display:block;width:8px;height:8px;border-radius:50%;background:var(--mint)}
+.chip.accent{border-color:rgba(142,155,255,.5);color:var(--accent)}
+.chip.mint{border-color:rgba(79,227,201,.45);color:var(--mint)}
+.chip.signal{border-color:rgba(255,122,69,.5);color:var(--signal)}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:12px}
+.skel{display:block;height:8px;border-radius:4px;background:rgba(237,229,214,.14)}
+.ok{color:var(--mint)}
+.toast{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;background:#24211c;border:1px solid var(--line2);font:600 14px/1.2 ui-sans-serif,system-ui,sans-serif;box-shadow:0 20px 40px -18px rgba(0,0,0,.8)}
+.toast b{display:block;width:10px;height:10px;border-radius:50%;background:var(--mint);flex:none}
+.mv{display:flex;flex-direction:column;align-items:center;gap:26px}.steps{display:flex;align-items:center;gap:0}.st{display:flex;align-items:center;gap:10px;font:700 13px ui-monospace,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.st i{display:block;width:14px;height:14px;border-radius:50%;border:2px solid var(--line2)}.sg{width:90px;height:2px;margin:0 14px;background:var(--line2);position:relative}.sg div{position:absolute;inset:0;background:var(--mint);transform-origin:left}.app{display:grid;grid-template-columns:170px 1fr;width:900px;height:330px}.sb{border-right:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:12px}.mn{padding:20px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:90px 1fr;gap:14px}.ch{grid-column:1/-1;padding:16px;position:relative}.pay{position:absolute;right:16px;top:16px;padding:9px 14px;border-radius:8px;background:var(--accentd);color:#fff;font-weight:800;font-size:13px}</style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="saas_mvp" data-start="0" data-width="1280" data-height="720" data-duration="8">
+      <div class="bg"></div>
+      <div class="grid"></div>
+      <section id="scene" class="scene clip" data-start="0" data-duration="8" data-track-index="0">
+        <div id="eyebrow" class="eyebrow"><i></i>SaaS & Product MVPs</div>
+        <div id="content" class="stage"><div class="mv"><div class="steps"><div id="st0" class="st"><i id="si0"></i>Idea</div><div class="sg"><div id="sg0"></div></div><div id="st1" class="st"><i id="si1"></i>Design</div><div class="sg"><div id="sg1"></div></div><div id="st2" class="st"><i id="si2"></i>Build</div><div class="sg"><div id="sg2"></div></div><div id="st3" class="st"><i id="si3"></i>Launch</div></div><div class="win" style=""><div class="bar"><i></i><i></i><i></i><span>app.yourproduct.com</span></div><div class="app"><div id="sb" class="sb"><span class="skel" style="width:70%;height:12px;background:var(--accent)"></span><span class="skel" style="width:90%"></span><span class="skel" style="width:60%"></span><span class="skel" style="width:80%"></span></div><div class="mn"><div id="kc0" class="card" style="padding:14px"><span class="label">Users</span><p style="font:800 22px ui-sans-serif,system-ui,sans-serif;margin-top:8px">1,204</p></div><div id="kc1" class="card" style="padding:14px"><span class="label">MRR</span><p style="font:800 22px ui-sans-serif,system-ui,sans-serif;margin-top:8px">₹2.4L</p></div><div id="kc2" class="card" style="padding:14px"><span class="label">Churn</span><p style="font:800 22px ui-sans-serif,system-ui,sans-serif;margin-top:8px">1.8%</p></div><div id="chc" class="card ch"><span class="label">Sign-ups</span><span id="pay" class="pay">Upgrade plan</span><svg width="660" height="120" viewBox="0 0 660 120" style="margin-top:10px"><path id="lc" d="M0 110 C 120 100, 180 80, 260 70 S 420 40, 520 30 S 620 10, 660 6" fill="none" stroke="var(--mint)" stroke-width="3" stroke-dasharray="760" stroke-dashoffset="760"/></svg></div></div></div></div><div id="lv" class="chip mint"><b></b>Live · first customers signed up</div></div></div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const show = (sel, at, from) => tl.fromTo(sel, Object.assign({ autoAlpha: 0, y: 14 }, from || {}), { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, at);
+      const type = (sel, at, dur) => tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: dur || 1, ease: "none" }, at);
+      const count = (sel, to, at, dur, fmt) => { const o = { v: 0 }; const el = document.querySelector(sel); tl.to(o, { v: to, duration: dur || 1, ease: "power2.out", onUpdate: () => { el.textContent = (fmt || ((v) => Math.round(v)))(o.v); } }, at); };
+      tl.fromTo("#eyebrow", { autoAlpha: 0, x: -12 }, { autoAlpha: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      tl.fromTo("#content", { autoAlpha: 0, scale: 0.965 }, { autoAlpha: 1, scale: 1, duration: 0.6, ease: "power3.out" }, 0);
+
+      tl.to("#si0", { backgroundColor: "#4fe3c9", borderColor: "#4fe3c9", duration: 0.25 }, 0.7); tl.to("#st0", { color: "#ede5d6", duration: 0.25 }, 0.7); tl.fromTo("#sg0", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "none" }, 0.95);
+      tl.to("#si1", { backgroundColor: "#4fe3c9", borderColor: "#4fe3c9", duration: 0.25 }, 1.8); tl.to("#st1", { color: "#ede5d6", duration: 0.25 }, 1.8); tl.fromTo("#sg1", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "none" }, 2.05);
+      tl.to("#si2", { backgroundColor: "#4fe3c9", borderColor: "#4fe3c9", duration: 0.25 }, 2.9000000000000004); tl.to("#st2", { color: "#ede5d6", duration: 0.25 }, 2.9000000000000004); tl.fromTo("#sg2", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "none" }, 3.1500000000000004);
+      tl.to("#si3", { backgroundColor: "#4fe3c9", borderColor: "#4fe3c9", duration: 0.25 }, 4); tl.to("#st3", { color: "#ede5d6", duration: 0.25 }, 4);
+      show("#sb", 1.4, { x: -20 });
+      show("#kc0", 2.2, { scale: 0.92 }); show("#kc1", 2.35, { scale: 0.92 }); show("#kc2", 2.5, { scale: 0.92 });
+      show("#chc", 2.9);
+      tl.to("#lc", { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" }, 3.2);
+      show("#pay", 3.8, { scale: 0.8, y: 0 });
+      show("#lv", 4.7, { scale: 0.9 });
+      tl.to(["#content", "#eyebrow"], { autoAlpha: 0, scale: 0.985, duration: 0.55, ease: "power2.in" }, 7.35);
+      tl.seek(0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["saas_mvp"] = tl;
+    </script>
+  </body>
+</html>

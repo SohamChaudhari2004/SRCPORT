@@ -13,7 +13,10 @@ export default function SolutionMedia({ solution, large = false }: { solution: S
         src={solution.video.src}
         poster={solution.video.poster}
         className="block aspect-video w-full bg-black object-cover"
-        {...(large ? { controls: true, preload: "metadata" } : { autoPlay: true, muted: true, loop: true, preload: "none" })}
+        autoPlay
+        muted
+        loop
+        preload={large ? "auto" : "none"}
         playsInline
         aria-label={`${solution.title} demo`}
       />

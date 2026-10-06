@@ -133,7 +133,7 @@ export function servicesMd() {
     `# ${servicesPage.title}`,
     `> ${servicesPage.lead}`,
     `Site: ${servicesUrl} · Contact: ${site.email}`,
-    "## Why work with me",
+    "## Why work with us",
     list(valueProps.map((v) => `**${v.title}**: ${v.body}`)),
     "## Solutions",
     list(solutions.map((s) => `[${s.title}](${solutionUrl(s)}) (${s.category}): ${s.tagline}`)),

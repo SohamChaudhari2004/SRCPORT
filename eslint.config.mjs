@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // HyperFrames motion-graphic sources (generated HTML, rendered to public/assets/solutions).
+    "motion/**",
   ]),
 ]);
 
