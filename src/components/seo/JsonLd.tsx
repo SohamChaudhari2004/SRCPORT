@@ -36,6 +36,30 @@ export default function JsonLd() {
         inLanguage: "en-IN",
       },
       {
+        // The professional practice behind the portfolio: lets agents verify contact
+        // details and location for hiring, freelance and consulting enquiries.
+        "@type": ["Organization", "ProfessionalService"],
+        "@id": `${seo.url}/#organization`,
+        name: `${site.name}, AI Engineering`,
+        url: seo.url,
+        logo: `${seo.url}/icon.svg`,
+        image: `${seo.url}${site.photo.light}`,
+        description: seo.ogDescription,
+        email: site.email,
+        founder: { "@id": personId },
+        address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressRegion: "Maharashtra", addressCountry: "IN" },
+        areaServed: "Worldwide",
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: site.email,
+          url: `${seo.url}/contact`,
+          availableLanguage: ["English"],
+        },
+        knowsAbout: seo.knowsAbout,
+        sameAs: seo.sameAs,
+      },
+      {
         "@type": "Person",
         "@id": personId,
         name: site.name,

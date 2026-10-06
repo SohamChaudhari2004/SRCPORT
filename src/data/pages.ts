@@ -132,4 +132,62 @@ export const privacyPage: InfoPage = {
   ],
 };
 
-export const infoPages = [aboutPage, contactPage, privacyPage];
+/** Tool names served by /mcp. Kept in sync with src/lib/mcp.ts by a test. */
+export const MCP_TOOL_NAMES = ["get_profile", "list_projects", "get_project", "list_demos", "get_contact"];
+
+export const developersPage: InfoPage = {
+  path: "/developers",
+  title: `${site.name} Developer Resources`,
+  description: `Developer resources from ${site.name}: a public MCP server, Markdown versions of every page, llms.txt, and the open-source Stock AI API and MCP server.`,
+  lead: `Everything on this site is readable by software as well as people. Use these endpoints to look up ${site.name}'s profile, projects and demos from an AI agent, a script or an MCP client. All of them are public, read-only and free, with no API key.`,
+  sections: [
+    {
+      heading: "MCP server",
+      paragraphs: [
+        `A Model Context Protocol server runs at ${seo.url}/mcp over Streamable HTTP. It is stateless, needs no authentication and answers in JSON. Add that URL as a remote MCP server in Claude, ChatGPT, Cursor or any MCP client.`,
+        `Tools: ${MCP_TOOL_NAMES.join(", ")}. get_project takes a project slug from list_projects and returns the full case study. Every tool is read-only. The server is described for automatic discovery at ${seo.url}/.well-known/mcp.json. Requests are limited to 60 per minute per IP address.`,
+      ],
+      links: [
+        { label: "MCP endpoint", href: "/mcp", note: "POST, JSON-RPC 2.0" },
+        { label: "MCP server card", href: "/.well-known/mcp.json", note: "Discovery manifest" },
+      ],
+    },
+    {
+      heading: "Markdown for every page",
+      paragraphs: [
+        "Every page on this site is also available as clean Markdown at its normal URL. Send the request header Accept: text/markdown and the response comes back with Content-Type: text/markdown instead of HTML. Pages that do not exist return a 404 with a short Markdown explanation and links to the index.",
+      ],
+    },
+    {
+      heading: "llms.txt and sitemap",
+      paragraphs: [
+        "llms.txt follows the llmstxt.org format: a short summary, guidance on when to use the site, and links to every important page. The XML sitemap lists every indexable URL.",
+      ],
+      links: [
+        { label: "llms.txt", href: "/llms.txt" },
+        { label: "sitemap.xml", href: "/sitemap.xml" },
+      ],
+    },
+    {
+      heading: "Stock AI API and MCP server",
+      paragraphs: [
+        "Stock AI is an open-source FastAPI service with an LLM stock-analysis agent, plain JSON endpoints for prices, company data, financials and Yahoo Finance screeners, and an MCP server that exposes the same tools to Claude Desktop and IDEs. The integration guide covers authentication, rate limits, every endpoint and error code, with examples in TypeScript, Python and curl.",
+      ],
+      links: [
+        { label: "Integration guide", href: "https://github.com/SohamChaudhari2004/YfinanceMCP/blob/main/docs/INTEGRATION.md" },
+        { label: "Source code", href: "https://github.com/SohamChaudhari2004/YfinanceMCP" },
+        { label: "Live demo", href: "/stock-ai" },
+      ],
+    },
+    {
+      heading: "Open-source code",
+      paragraphs: ["The code behind the projects on this site is on GitHub, and published Python packages are on PyPI."],
+      links: [
+        { label: "GitHub", href: "https://github.com/SohamChaudhari2004" },
+        { label: "PyPI", href: site.pypi },
+      ],
+    },
+  ],
+};
+
+export const infoPages = [aboutPage, contactPage, privacyPage, developersPage];
