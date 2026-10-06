@@ -32,6 +32,7 @@ export function GET() {
     "",
     "- Every page is available as Markdown at its normal URL: send the header `Accept: text/markdown`.",
     `- MCP server (Streamable HTTP, read-only, no auth): ${seo.url}/mcp. Tools: ${mcpTools.map((t) => `\`${t.name}\``).join(", ")}. Manifest: ${seo.url}/.well-known/mcp.json.`,
+    `- REST API (read-only, no auth): ${seo.url}/api/v1/profile, /api/v1/projects, /api/v1/demos, /api/v1/solutions. OpenAPI 3.1 spec: ${seo.url}/openapi.json`,
     `- Sitemap: ${seo.url}/sitemap.xml`,
     "",
     "## Profile",

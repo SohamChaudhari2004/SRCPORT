@@ -14,6 +14,7 @@ import {
   valueProps,
 } from "@/data/services";
 import SolutionsGrid from "@/components/services/SolutionsGrid";
+import { organizationNode, personNode } from "@/lib/jsonld";
 import { CtaBlock, ServicesFooter, ServicesHeader } from "@/components/services/ServicesChrome";
 
 // Served at services.sohamchaudhari.in (src/proxy.ts rewrites "/" there to this page).
@@ -29,6 +30,17 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
+    organizationNode(),
+    personNode(),
+    {
+      "@type": "WebSite",
+      "@id": `${servicesUrl}/#website`,
+      url: servicesUrl,
+      name: servicesPage.title,
+      description: servicesPage.description,
+      publisher: { "@id": `${seo.url}/#organization` },
+      inLanguage: "en-IN",
+    },
     {
       "@type": "WebPage",
       "@id": `${servicesUrl}/#page`,
@@ -36,6 +48,7 @@ const jsonLd = {
       name: servicesPage.title,
       description: servicesPage.description,
       about: { "@id": `${seo.url}/#organization` },
+      isPartOf: { "@id": `${servicesUrl}/#website` },
       inLanguage: "en-IN",
     },
     {

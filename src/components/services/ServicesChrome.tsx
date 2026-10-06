@@ -42,7 +42,13 @@ export function ServicesFooter() {
       <span>
         © {new Date().getFullYear()} {site.name} · {site.location}
       </span>
-      <span className="flex gap-5">
+      <span className="flex flex-wrap gap-5">
+        <a href="/openapi.json" className="hover:text-accent">
+          API
+        </a>
+        <a href="/llms.txt" className="hover:text-accent">
+          For AI agents
+        </a>
         <a href={`mailto:${site.email}`} className="hover:text-accent">
           {site.email}
         </a>

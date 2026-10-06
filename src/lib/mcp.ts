@@ -8,7 +8,8 @@ import { aboutPage, contactPage } from "@/data/pages";
 import { caseStudies } from "@/data/caseStudies";
 import { demos } from "@/components/playground/demos";
 import { featuredProjects, projectViews } from "@/lib/derive";
-import { demoMd, homeMd, infoMd, projectMd, servicesMd } from "@/lib/agentContent";
+import { demoMd, homeMd, infoMd, projectMd, servicesMd, solutionMd } from "@/lib/agentContent";
+import { solutions } from "@/data/services";
 
 export const MCP_PROTOCOL_VERSIONS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
 
@@ -84,6 +85,22 @@ const tools: Tool[] = [
     description: `Freelance solutions ${site.name} builds for businesses (AI chatbots, CRM, ERP, voice agents, automation, websites), how projects work and how pricing is set.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
     run: () => servicesMd(),
+  },
+  {
+    name: "get_solution",
+    title: "Get solution",
+    description: "Full details of one freelance solution: the problem, what gets built, the impact and suitable industries.",
+    inputSchema: {
+      type: "object",
+      properties: { slug: { type: "string", description: "Solution slug from get_services.", enum: solutions.map((s) => s.slug) } },
+      required: ["slug"],
+      additionalProperties: false,
+    },
+    run: ({ slug }) => {
+      const md = typeof slug === "string" ? solutionMd(slug) : null;
+      if (!md) throw new Error(`Unknown solution slug. Valid slugs: ${solutions.map((s) => s.slug).join(", ")}`);
+      return md;
+    },
   },
   {
     name: "get_contact",

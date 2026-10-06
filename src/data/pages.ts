@@ -136,7 +136,7 @@ export const privacyPage: InfoPage = {
 };
 
 /** Tool names served by /mcp. Kept in sync with src/lib/mcp.ts by a test. */
-export const MCP_TOOL_NAMES = ["get_profile", "list_projects", "get_project", "list_demos", "get_services", "get_contact"];
+export const MCP_TOOL_NAMES = ["get_profile", "list_projects", "get_project", "list_demos", "get_services", "get_solution", "get_contact"];
 
 export const developersPage: InfoPage = {
   path: "/developers",
@@ -153,6 +153,17 @@ export const developersPage: InfoPage = {
       links: [
         { label: "MCP endpoint", href: "/mcp", note: "POST, JSON-RPC 2.0" },
         { label: "MCP server card", href: "/.well-known/mcp.json", note: "Discovery manifest" },
+      ],
+    },
+    {
+      heading: "REST API and OpenAPI",
+      paragraphs: [
+        `A read-only JSON API serves the same data: GET /api/v1/profile, /api/v1/projects, /api/v1/projects/{slug}, /api/v1/demos, /api/v1/solutions (filter with ?category=) and /api/v1/solutions/{slug}. It needs no key and answers on both ${seo.url} and the services subdomain.`,
+        "Every operation has a unique operationId, typed parameters and response schemas in the OpenAPI 3.1 document, so it can be loaded straight into LLM function calling. Errors are always JSON with a stable code, a message and a hint on how to fix the request.",
+      ],
+      links: [
+        { label: "OpenAPI spec", href: "/openapi.json", note: "OpenAPI 3.1" },
+        { label: "Example: list solutions", href: "/api/v1/solutions", note: "JSON" },
       ],
     },
     {

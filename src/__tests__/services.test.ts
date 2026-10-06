@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, expect, it } from "vitest";
 import { NextRequest } from "next/server";
 import { proxy } from "@/proxy";
@@ -99,5 +100,43 @@ describe("services content for agents", () => {
     expect(xml).toContain(`<loc>${servicesUrl}</loc>`);
     for (const s of solutions) expect(xml).toContain(`<loc>${solutionUrl(s)}</loc>`);
     expect(xml).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}T/);
+  });
+});
+
+describe("services identity and agent files", () => {
+  it("publishes an llms.txt with when-to-use guidance and machine endpoints", async () => {
+    const { GET: llms } = await import("@/app/services-llms.txt/route");
+    const text = await llms().text();
+    expect(text.split("\n")[0]).toMatch(/^# \S/);
+    expect(text).toContain("## When to use this site");
+    expect(text).toContain(`${servicesUrl}/openapi.json`);
+    expect(text).toContain(`${servicesUrl}/mcp`);
+    for (const s of solutions) expect(text).toContain(solutionUrl(s));
+    expect(rewrite(run(`${SUB}/llms.txt`))).toBe(`${SUB}/services-llms.txt`);
+  });
+
+  it("passes API, OpenAPI and MCP requests through on the subdomain", () => {
+    for (const path of ["/openapi.json", "/api/v1/solutions", "/mcp", "/.well-known/mcp.json"]) {
+      const res = run(`${SUB}${path}`);
+      expect(rewrite(res), path).toBeNull();
+      expect(res.headers.get("location"), path).toBeNull();
+    }
+  });
+
+  it("has Organization JSON-LD with contactPoint and address on the home and solution pages", async () => {
+    const { renderToStaticMarkup } = await import("react-dom/server");
+    const { default: Home } = await import("@/app/services/page");
+    const { default: Solution } = await import("@/app/services/[slug]/page");
+    const pages = [
+      renderToStaticMarkup(Home()),
+      renderToStaticMarkup(await Solution({ params: Promise.resolve({ slug: "ai-crm" }) })),
+    ];
+    for (const html of pages) {
+      const json = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)![1];
+      const graph: Record<string, unknown>[] = JSON.parse(json)["@graph"];
+      const org = graph.find((n) => [n["@type"]].flat().includes("Organization")) as Record<string, any>;
+      expect(org.contactPoint).toMatchObject({ "@type": "ContactPoint", email: expect.any(String), contactType: expect.any(String) });
+      expect(org.address).toMatchObject({ "@type": "PostalAddress", addressCountry: "IN" });
+    }
   });
 });

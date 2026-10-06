@@ -2,6 +2,7 @@ import { seo } from "@/data/seo";
 import { site } from "@/data/profile";
 import { experience } from "@/data/experience";
 import { featuredProjects, resumeUrl } from "@/lib/derive";
+import { organizationNode } from "@/lib/jsonld";
 
 const personId = `${seo.url}/#person`;
 const websiteId = `${seo.url}/#website`;
@@ -35,30 +36,7 @@ export default function JsonLd() {
         mainEntity: { "@id": personId },
         inLanguage: "en-IN",
       },
-      {
-        // The professional practice behind the portfolio: lets agents verify contact
-        // details and location for hiring, freelance and consulting enquiries.
-        "@type": ["Organization", "ProfessionalService"],
-        "@id": `${seo.url}/#organization`,
-        name: `${site.name}, AI Engineering`,
-        url: seo.url,
-        logo: `${seo.url}/icon.svg`,
-        image: `${seo.url}${site.photo.light}`,
-        description: seo.ogDescription,
-        email: site.email,
-        founder: { "@id": personId },
-        address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressRegion: "Maharashtra", addressCountry: "IN" },
-        areaServed: "Worldwide",
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "customer support",
-          email: site.email,
-          url: `${seo.url}/contact`,
-          availableLanguage: ["English"],
-        },
-        knowsAbout: seo.knowsAbout,
-        sameAs: seo.sameAs,
-      },
+      organizationNode(),
       {
         "@type": "Person",
         "@id": personId,

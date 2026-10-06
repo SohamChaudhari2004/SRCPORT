@@ -35,7 +35,9 @@ const rewrite = (request: NextRequest, pathname: string) => {
  */
 function servicesHost(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (pathname === "/robots.txt" || pathname === "/sitemap.xml") return rewrite(request, `/services-${pathname.slice(1)}`);
+  if (pathname === "/robots.txt" || pathname === "/sitemap.xml" || pathname === "/llms.txt") {
+    return rewrite(request, `/services-${pathname.slice(1)}`);
+  }
   if (SKIP.test(pathname) || pathname === "/services" || pathname.startsWith("/services/")) return NextResponse.next();
   const page = `/services${pathname === "/" ? "" : pathname}`;
   return rewrite(request, wantsMarkdown(request) ? `/md${page}` : page);

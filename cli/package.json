@@ -1,0 +1,28 @@
+{
+  "name": "sohamchaudhari",
+  "version": "1.0.0",
+  "description": "CLI for Soham Chaudhari's public API: freelance AI and software solutions, profile, projects and live demos.",
+  "type": "module",
+  "bin": {
+    "sohamchaudhari": "bin/sohamchaudhari.mjs"
+  },
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "soham chaudhari",
+    "ai engineer",
+    "freelance",
+    "ai solutions",
+    "cli",
+    "openapi",
+    "mcp"
+  ],
+  "homepage": "https://services.sohamchaudhari.in",
+  "author": "Soham Chaudhari <sohamrc08@gmail.com>",
+  "license": "MIT"
+}

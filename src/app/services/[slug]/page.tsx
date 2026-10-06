@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
 import { seo } from "@/data/seo";
 import { mailtoFor, servicesUrl, solutions, solutionUrl } from "@/data/services";
 import SolutionMedia from "@/components/services/SolutionMedia";
+import { organizationNode } from "@/lib/jsonld";
 import { CtaBlock, ServicesFooter, ServicesHeader } from "@/components/services/ServicesChrome";
 
 // One page per solution, served at services.sohamchaudhari.in/<slug> (see src/proxy.ts).
@@ -45,6 +46,7 @@ export default async function SolutionPage({ params }: Props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      organizationNode(),
       {
         "@type": "Service",
         "@id": `${url}#service`,
